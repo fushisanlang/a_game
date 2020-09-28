@@ -7,7 +7,7 @@ import redis
 
 class RedisTT(object):
     def __init__(self):
-        self.host = '192.168.92.129'
+        self.host = '192.168.92.130'
         self.port = '6379'
         self.password = '1'
         self.db = '1'
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     save1()
 
 
-    print(RedisTT().r.lrange('someexpert', 0, RedisTT().r.llen('someexpert')))
+    print(list(RedisTT().r.lrange('someexpert', 0, RedisTT().r.llen('someexpert'))[0]))

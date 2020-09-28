@@ -8,7 +8,4 @@ import redis
 r = redis.Redis(host='192.168.92.129', port=6379, db=1,password='1', decode_responses=True)
 r.set('foo', 'bar')
 print(type(r.get('foo')))
-
-
-
 ```
