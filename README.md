@@ -1,6 +1,6 @@
-# kill-time
+# thirteenth_heaven
 
-### 杀时间挂机游戏
+### 一十三重天挂机游戏
 
 上一个养鲲还是太简单，没有可玩性
 
@@ -18,7 +18,8 @@
 
 上个用go写的，本来是为了随处用，但是因为redis和其他原因，纯单机可行性不高。所以也不考虑移植性了。打算这次直接走bs架构吧。
 
-直接简单点，python-flask+redis走起来。
+~~直接简单点，python-flask+redis走起来。~~
+走flask+mysql了 redis读取方便但是存数据还是比较麻烦
 
 
 
