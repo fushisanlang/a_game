@@ -5,11 +5,17 @@
 # @File    : operate_data.py
 # @Software: PyCharm
 import mysql.connector
+from readconf import readconf
+
+host=readconf("Mysql-Database","host")
+user=readconf("Mysql-Database","user")
+password=readconf("Mysql-Database","password")
+database=readconf("Mysql-Database","database")
 
 
 def select_operaction(select_key,tablename,select_require="1"):
     conn = mysql.connector.connect(
-        user="gamer", password="gamer", host="192.168.92.130", database="thirteenth_heaven"
+        user=user, password=password, host=host, database=database
     )
     cursor = conn.cursor()
     sql_parm1 = "SELECT "
@@ -20,7 +26,7 @@ def select_operaction(select_key,tablename,select_require="1"):
     sql_parm6 = select_require
     sql_parm7 = ";"
     sql = sql_parm1 + sql_parm2 + sql_parm3 + sql_parm4 + sql_parm5 + sql_parm6 + sql_parm7
-    #print(sql)
+    print(sql)
     cursor.execute(sql)
     result = cursor.fetchall()
     cursor.close()
@@ -28,7 +34,7 @@ def select_operaction(select_key,tablename,select_require="1"):
 
 def insert_operaction(tablename,keys,valuses):
     conn = mysql.connector.connect(
-        user="gamer", password="gamer", host="192.168.92.130", database="thirteenth_heaven"
+        user=user, password=password, host=host, database=database
     )
     cursor = conn.cursor()
     sql_parm1 = "INSERT INTO "
@@ -44,7 +50,7 @@ def insert_operaction(tablename,keys,valuses):
 
 def update_operaction(tablename,update_str,key_str="1"):
     conn = mysql.connector.connect(
-        user="gamer", password="gamer", host="192.168.92.130", database="thirteenth_heaven"
+        user=user, password=password, host=host, database=database
     )
     cursor = conn.cursor()
     sql_parm1 = "UPDATE "

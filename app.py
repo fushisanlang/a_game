@@ -31,10 +31,12 @@ def load_user(user_id):
 
 
 @app.route('/', methods=['POST', 'GET'])
-#@login_required
+# @login_required
 def index():
+    index_str = select_operaction("conf_value", "conf", "conf_key='index'")[
+        0][0].decode('UTF-8')
 
-    return render_template('index.html')
+    return render_template('index.html', index_str=index_str)
 
 
 @app.route('/<path:post_type>', methods=['POST', 'GET'])
@@ -59,8 +61,10 @@ def songshi(post_type):
         if type == "shoucang":
             shoucang_I_keys = "user_id,from_id"
             shoucang_User_values = "user = \"" + current_user.get_id() + "\""
-            shoucang_User_id = select_operaction("id", "user", shoucang_User_values)[0][0]
-            shoucang_I_values = "\"" + str(shoucang_User_id) + "\",\"" + id + "\""
+            shoucang_User_id = select_operaction(
+                "id", "user", shoucang_User_values)[0][0]
+            shoucang_I_values = "\"" + \
+                str(shoucang_User_id) + "\",\"" + id + "\""
             insert_operaction(shoucang_str, shoucang_I_keys, shoucang_I_values)
         if type == "yichang":
             yichang_I_keys = "type,from_id"
@@ -79,9 +83,10 @@ def songshi(post_type):
                            id=R_id, title=R_title, author=R_author, paragraphsList=R_paragraphs,
                            EN_type=post_type, ZH_type=ZH_type)
 
+
 @app.route('/<path:post_type>/<int:post_id>')
 @login_required
-def show_post(post_type,post_id):
+def show_post(post_type, post_id):
     if post_type == "tangshi":
         ZH_type = "唐诗"
     elif post_type == "songshi":
@@ -93,7 +98,8 @@ def show_post(post_type,post_id):
     else:
         return redirect(url_for('index'))
 
-    S_result = select_operaction("id,title,author,paragraphs", post_type, "id = " + str(post_id))
+    S_result = select_operaction(
+        "id,title,author,paragraphs", post_type, "id = " + str(post_id))
     S_id = S_result[0][0]
     S_title = fanToJian(S_result[0][1].decode('UTF-8'))
     S_author = fanToJian(S_result[0][2].decode('UTF-8'))
@@ -101,7 +107,7 @@ def show_post(post_type,post_id):
     print(S_result)
     return render_template('read_2.html',
                            id=S_id, title=S_title, author=S_author, paragraphsList=S_paragraphs,
-                           EN_type=post_type,ZH_type=ZH_type)
+                           EN_type=post_type, ZH_type=ZH_type)
 
 
 #
