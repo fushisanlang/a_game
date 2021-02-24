@@ -7,22 +7,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 <style type="text/css">
 table {margin: auto;}
-tr.s1
-{
-  color:#1a0841;
-  background-color:#ffad5a;
-}
-tr.s2
-{
-  color:#daebee;
-  background-color:#4f9da6;
-}
-    tr.head
-    {
-  color:#000000;
-  background-color:#f38181;
-}
-td{text-align:center ;height: 1px}
 </style>
 
  </head>
@@ -37,21 +21,13 @@ td{text-align:center ;height: 1px}
    <div align="center">
      <table >
   <tbody>
-  <tr class="head">
-
-      <td>题目</td>
-      <td>作者</td>
-
-  </tr>
-{% for result in S_tangshi_result %}
-
-      <tr class={{ loop.cycle("s1","s2")}}>
-
-     <td> <a href="/{{ type }}/{{ result.id }}">{{ result.title }}</a></td>
-<td>{{ result.author }}</td>
-
-    </tr>
-{% endfor %}
+  <tr><td>{{name}}</td></tr>
+  <tr><td>{{level}}</td></tr>
+  <tr><td>{{experience}}</td></tr>
+  <tr><td>{{school}}</td></tr>
+  <tr><td>{{skill}}</td></tr>
+  <tr><td>{{hp}}</td></tr>
+  <tr><td>{{mp}}</td></tr>
    </tbody>
   </table>
                      <button ><a href="/tangshi" style="color:#283c63;">唐诗</a> </button>

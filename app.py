@@ -6,12 +6,14 @@
 # @Software: PyCharm
 from flask import Flask, request, redirect, url_for, render_template, flash
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
-from models import User, query_user
+from operate_user import User, query_user,register_user
 from operate_data import select_operaction, insert_operaction
 import random
 #from operate_str import reStr, fanToJian, deCodeList
 import hashlib
 import time
+from operate_role import query_role
+
 
 app = Flask(__name__)
 app.secret_key = '1234567'
@@ -33,55 +35,42 @@ def load_user(user_id):
 @app.route('/', methods=['POST', 'GET'])
 # @login_required
 def index():
-    index_str = select_operaction("conf_value", "conf", "conf_key='index'")[
+    index_str = select_operaction("conf_value", "conf", "conf_key='world_id'")[
         0][0].decode('UTF-8')
 
     return render_template('index.html', index_str=index_str)
 
-
-@app.route('/<path:post_type>', methods=['POST', 'GET'])
+@app.route('/user', methods=['POST', 'GET'])
 @login_required
-def songshi(post_type):
-    if post_type == "tangshi":
-        ZH_type = "唐诗"
-    elif post_type == "songshi":
-        ZH_type = "宋诗"
-    elif post_type == "songci":
-        ZH_type = "宋词"
-    elif post_type == "shijing":
-        ZH_type = "诗经"
-    else:
-        return redirect(url_for('index'))
+def user():
+    username = current_user.get_id()
+    role_id=select_operaction("r.id","role r,user u","u.user=\""+username+"\" and r.user_id=u.id")
+    print(role_id)
+    if role_id == [] :
+        return redirect(url_for('createrole'))
+    return render_template('user.html')
 
-    shoucang_str = post_type + "_shoucang"
 
-    if request.method == 'POST':
-        id = request.form.get('id')
-        type = request.form.get('type')
-        if type == "shoucang":
-            shoucang_I_keys = "user_id,from_id"
-            shoucang_User_values = "user = \"" + current_user.get_id() + "\""
-            shoucang_User_id = select_operaction(
-                "id", "user", shoucang_User_values)[0][0]
-            shoucang_I_values = "\"" + \
-                str(shoucang_User_id) + "\",\"" + id + "\""
-            insert_operaction(shoucang_str, shoucang_I_keys, shoucang_I_values)
-        if type == "yichang":
-            yichang_I_keys = "type,from_id"
-            yichang_I_values = "\"" + post_type + "\",\"" + id + "\""
-            insert_operaction("yichang", yichang_I_keys, yichang_I_values)
+@app.route('/createrole', methods=['POST', 'GET'])
+@login_required
+def createrole():
+    return render_template('createrole.html')
 
-    max_id = select_operaction('max(id)', post_type)[0][0]
-    random_id = str((random.randint(0, max_id)))
-    where_value = "id = " + random_id
-    R_str = select_operaction('*', post_type, where_value)
-    R_id = R_str[0][0]
-    R_title = fanToJian(R_str[0][1].decode('UTF-8'))
-    R_author = fanToJian(R_str[0][2].decode('UTF-8'))
-    R_paragraphs = reStr(fanToJian(R_str[0][3].decode('UTF-8'))).split('\n')
-    return render_template('read.html',
-                           id=R_id, title=R_title, author=R_author, paragraphsList=R_paragraphs,
-                           EN_type=post_type, ZH_type=ZH_type)
+
+@app.route('/createrole_success', methods=['POST'])
+def createrole_success():
+    G_rolename = request.form.get('rolename')
+    print(G_rolename)
+    if G_rolename is None:
+        R_message = "角色名为空，请重新注册"
+        return render_template('createrole_error.html', R_message=R_message)
+    S_role_str = query_role(G_rolename)
+    if S_role_str is not None:
+        R_message = "角色名已存在，请重新注册"
+        return render_template('register_error.html', R_message=R_message)
+    return render_template('createrole_success.html', username=G_username)
+
+
 
 
 @app.route('/<path:post_type>/<int:post_id>')
@@ -165,11 +154,8 @@ def register_success():
     if G_userpass_2 != G_userpass:
         R_message = "两次密码不匹配，请重新注册"
         return render_template('register_error.html', R_message=R_message)
-    I_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-    I_pass_sha1 = hashlib.sha1(G_userpass.encode("utf-8")).hexdigest()
-    I_keys = "user,pass,createtime"
-    I_values = "\"" + G_username + "\",\"" + I_pass_sha1 + "\",\"" + I_time + "\""
-    insert_operaction("user", I_keys, I_values)
+    print(G_username,G_userpass)
+    register_user(G_username,G_userpass)
     return render_template('register_success.html', username=G_username, password=G_userpass)
 
 

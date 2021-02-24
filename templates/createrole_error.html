@@ -1,0 +1,42 @@
+
+<html>
+ <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes,text/html; charset=utf-8" />
+  <title>注册</title>
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+ </head>
+ <body>
+  <br />
+  <br />
+  <br />
+  <br />
+  <h1 align="center" style="color:#283c63;">注册</h1>
+  <br />
+  <p align="center">{{ R_message }}</p>
+  <br />
+  <div id="main" align="center">
+   <form method="post" action="/register_success">
+    <div align="center">
+     <table id="rounded-corner" summary="2007 Major IT Companies' Profit">
+      <tbody>
+
+     
+        <tr>
+          <td align="center"><p style="color:#daebee;font-size:16px;" align="center">角色名称：</p></td>
+             <td><input class="text" type="text" name="rolename" size="25" autocomplete="off" required="required" pattern="^[1-9a-zA-Z]{3,20}$" placeholder="3-20位数字或字母，区分大小写"/></td>  </tr> <tr> <td>    <br />  </td> 
+                   
+          </tr>
+
+      </tbody>
+     </table>
+    </div>
+    <div align="center">
+     <input type="submit" ;="" align="center" value="注册" />
+    </div>
+
+   </form>
+            <button ><a href="/" style="color:#283c63;">返回</a> </button>
+
+ </body>
+</html>
