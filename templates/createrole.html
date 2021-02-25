@@ -17,27 +17,54 @@
   <br />
   <br />
   <div id="main" align="center">
-   <form method="post" action="/register_success">
+   <form method="post" action="/createrole_success">
     <div align="center">
      <table id="rounded-corner" summary="2007 Major IT Companies' Profit">
       <tbody>
 
        <tr>
         <td align="center"><p style="color:#daebee;font-size:16px;" align="center">角色名称：</p></td>
-           <td><input class="text" type="text" name="rolename" size="25" autocomplete="off" required="required" pattern="^[1-9a-zA-Z]{3,20}$" placeholder="3-20位数字或字母，区分大小写"/></td>  </tr> <tr> <td>    <br />  </td> 
+           <td><input style="width: 200;" type="text" name="rolename" autocomplete="off" required="required" pattern="^[1-9a-zA-Z]{3,20}$" placeholder="3-20位数字或字母，区分大小写"/></td>  </tr> <tr> <td>    <br />  </td> 
                  
         </tr>
+        <tr>
+          <td align="center"><p style="color:#daebee;font-size:16px;" align="center">角色门派：</p></td>
+        <td><select name="noun1" style = "width:200"> <option></option>
+         
+
+          {% for schoolid,schoolname in schools_dict.items() %}
+         
+          <option value="{{ schoolid }}"> {{ schoolname }}</option>
+          
+          
+          {% endfor %}</select></td>
+       </tr>
+
+
+
+
+
+
         <!-- placeholder="3 -5"  -->
 
       </tbody>
      </table>
+    </div>
+    <div>
+
+
+      <br>
+       <button ><a href="/schoolinfo" style="color:#283c63;">门派介绍</a> </button>  
+          </div>
+      <div><br>
     </div>
     <div align="center">
      <input type="submit" ;="" align="center" value="注册" />
     </div>
 
    </form>
+<div class="footer">
                   <button ><a href="/" style="color:#283c63;">返回</a> </button>
-
+</div>
  </body>
 </html>

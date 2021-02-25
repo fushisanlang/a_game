@@ -1,9 +1,5 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-# @Time    : 2020/5/17 下午10:21
-# @Author  : fushisanlang
-# @File    : app.py
-# @Software: PyCharm
+
 from flask import Flask, request, redirect, url_for, render_template, flash
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 from operate_user import User, query_user,register_user
@@ -13,6 +9,7 @@ import random
 import hashlib
 import time
 from operate_role import query_role
+from operate_str import decode_tuple_list_dict
 
 
 app = Flask(__name__)
@@ -45,6 +42,7 @@ def index():
 def user():
     username = current_user.get_id()
     role_id=select_operaction("r.id","role r,user u","u.user=\""+username+"\" and r.user_id=u.id")
+    print("role_id = " )
     print(role_id)
     if role_id == [] :
         return redirect(url_for('createrole'))
@@ -54,12 +52,16 @@ def user():
 @app.route('/createrole', methods=['POST', 'GET'])
 @login_required
 def createrole():
-    return render_template('createrole.html')
+    schools=select_operaction("id,name","school")
+    schools_dict = decode_tuple_list_dict(schools)
+    print(schools_dict)
+    return render_template('createrole.html',schools_dict = schools_dict)
 
 
 @app.route('/createrole_success', methods=['POST'])
 def createrole_success():
     G_rolename = request.form.get('rolename')
+    G_schoolid = request.form.get('schoolid')
     print(G_rolename)
     if G_rolename is None:
         R_message = "角色名为空，请重新注册"
@@ -68,7 +70,7 @@ def createrole_success():
     if S_role_str is not None:
         R_message = "角色名已存在，请重新注册"
         return render_template('register_error.html', R_message=R_message)
-    return render_template('createrole_success.html', username=G_username)
+    return render_template('createrole_success.html', rolename=G_rolename)
 
 
 

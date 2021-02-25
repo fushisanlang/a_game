@@ -18,7 +18,7 @@ users = [
 ]
 
 def query_role(role_name):
-    user_select = "user = \"" + user_name + "\""
+    user_select = "user = \"" + role_name + "\""
     user_str = select_operaction("id,user,pass,admin", "user", user_select)
     try:
         S_user = user_str[0]
