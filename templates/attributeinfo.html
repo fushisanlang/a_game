@@ -1,0 +1,53 @@
+
+<html>
+    <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes,text/html; charset=utf-8" />
+     <title>注册</title>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+   
+    </head>
+   
+    <body>
+     <br />
+     <br />
+     <br />
+     <br />
+     <h1 align="center" style="color:#283c63;">属性说明</h1>
+     <br />
+     <br />
+     <div id="main" align="center">
+       <div align="center">
+        <table id="rounded-corner" summary="2007 Major IT Companies' Profit">
+         <tbody>
+   
+          
+          {% for attributesname,attributesinfo in attributes_dict.items() %}
+   <tr><td style="width: 200;color: aquamarine;" align="center" ><b >{{ attributesname }} </b></td></tr>
+   <tr><td style="width: 200;" align="center">{{ attributesinfo }} </td></tr>
+   <tr><td style="width: 200;" align="center"> <br> </td></tr>
+  
+  
+   {% endfor %}
+   
+   
+           <!-- placeholder="3 -5"  -->
+   
+         </tbody>
+        </table>
+       </div>
+       <div>
+   
+   
+         <br>
+          <button ><a href="/createrole" style="color:#283c63;">建立角色</a> </button>  
+             </div>
+         <div><br>
+       </div>
+       <div align="center">
+       </div>
+   
+  
+    </body>
+   </html>
+   

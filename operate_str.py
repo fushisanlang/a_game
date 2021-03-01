@@ -1,13 +1,15 @@
-def decode_tuple_list_list(byte_list):
-    new_list = []
-    new_tuple = []
-    for byte_str in byte_list:
-        new_tuple = [byte_str[0],byte_str[1].decode('UTF-8')]
-        new_list.append(new_tuple)
-    return new_list
-        
-def decode_tuple_list_dict(byte_list):
-    new_dict = {}
-    for byte_str in byte_list:
-        new_dict[byte_str[0]] = byte_str[1].decode('UTF-8')
-    return new_dict
+def trans_to_list_from_str(strings_like_list):
+    list1 = list(strings_like_list)
+    i = 0
+    del_list = []
+    print(list1)
+    for a in list1:
+        if a == ',' or a == '[' or a == ']' or a == ' ':
+            del_list.append(i)
+        i = i + 1
+
+    del_list.reverse()
+
+    for j in del_list:
+        del list1[j]
+    return list1
