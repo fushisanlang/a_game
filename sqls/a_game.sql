@@ -11,7 +11,7 @@
  Target Server Version : 50565
  File Encoding         : 65001
 
- Date: 24/02/2021 17:08:14
+ Date: 01/03/2021 17:20:19
 */
 
 SET NAMES utf8mb4;
@@ -25,10 +25,7 @@ CREATE TABLE `arms`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '物品id',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '物品名',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '物品描述',
-  `buff_id_1` int(11) NOT NULL COMMENT '物品加成1',
-  `buff_id_2` int(11) NULL DEFAULT NULL COMMENT '物品加成2',
-  `buff_id_3` int(11) NULL DEFAULT NULL COMMENT '物品加成3',
-  `buff_id_4` int(11) NULL DEFAULT NULL COMMENT '物品加成4',
+  `buff_id_in_conf` int(11) NOT NULL COMMENT '物品加成在conf中的位置',
   `style_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '武器类型id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_bin COMMENT = '武器' ROW_FORMAT = COMPACT;
@@ -36,8 +33,28 @@ CREATE TABLE `arms`  (
 -- ----------------------------
 -- Records of arms
 -- ----------------------------
-INSERT INTO `arms` VALUES (1, '入门法剑', '基础武器，小幅增加攻击力', 1, NULL, NULL, NULL, '');
-INSERT INTO `arms` VALUES (2, '入门禅杖', '基础武器，小幅降低攻击力，小幅增加包记录', 2, 3, NULL, NULL, '');
+INSERT INTO `arms` VALUES (1, '入门法剑', '基础武器，小幅增加攻击力', 1, '');
+INSERT INTO `arms` VALUES (2, '入门禅杖', '基础武器，小幅降低攻击力，小幅增加包记录', 2, '');
+
+-- ----------------------------
+-- Table structure for attribute
+-- ----------------------------
+DROP TABLE IF EXISTS `attribute`;
+CREATE TABLE `attribute`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派名',
+  `info` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派简介',
+  PRIMARY KEY (`id`, `name`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Records of attribute
+-- ----------------------------
+INSERT INTO `attribute` VALUES (1, '金', '攻击');
+INSERT INTO `attribute` VALUES (5, '木', '回血，聚气');
+INSERT INTO `attribute` VALUES (6, '火', '暴击');
+INSERT INTO `attribute` VALUES (7, '土', '防御');
+INSERT INTO `attribute` VALUES (8, '水', '移速');
 
 -- ----------------------------
 -- Table structure for bag
@@ -65,17 +82,19 @@ CREATE TABLE `buff`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'buff名称',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '描述',
-  `kick_in` varchar(11) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '作用属性',
+  `attribute_id` int(11) NOT NULL COMMENT '作用属性',
+  `sign` int(9) NOT NULL COMMENT '1 加 2减 3乘 4除',
   `value` decimal(10, 2) NOT NULL COMMENT '作用值',
   PRIMARY KEY (`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of buff
 -- ----------------------------
-INSERT INTO `buff` VALUES (1, '利', '小幅度增加攻击力', 'jin', 15.00);
-INSERT INTO `buff` VALUES (2, '钝', '小幅度减少攻击力', 'jin', -15.00);
-INSERT INTO `buff` VALUES (3, '重', '小幅度增加暴击', 'huo', 0.05);
+INSERT INTO `buff` VALUES (1, '利', '小幅度增加攻击力', 0, 1, 15.00);
+INSERT INTO `buff` VALUES (2, '钝', '小幅度减少攻击力', 0, 2, 15.00);
+INSERT INTO `buff` VALUES (3, '重', '小幅度增加暴击', 0, 1, 0.05);
+INSERT INTO `buff` VALUES (4, '心如止水', '降低攻击力', 0, 3, 0.70);
 
 -- ----------------------------
 -- Table structure for conf
@@ -86,12 +105,13 @@ CREATE TABLE `conf`  (
   `conf_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `conf_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of conf
 -- ----------------------------
 INSERT INTO `conf` VALUES (1, 'world_id', '第一世');
+INSERT INTO `conf` VALUES (2, '重', '[2]');
 
 -- ----------------------------
 -- Table structure for res
@@ -150,16 +170,17 @@ CREATE TABLE `role`  (
 DROP TABLE IF EXISTS `school`;
 CREATE TABLE `school`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `school_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派名',
-  PRIMARY KEY (`id`, `school_name`) USING BTREE
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派名',
+  `info` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派简介',
+  PRIMARY KEY (`id`, `name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of school
 -- ----------------------------
-INSERT INTO `school` VALUES (1, '全真');
-INSERT INTO `school` VALUES (2, '剑派1');
-INSERT INTO `school` VALUES (3, '符道2');
+INSERT INTO `school` VALUES (1, '心水', '避世 种田 溜溜溜');
+INSERT INTO `school` VALUES (2, '争锋', 'pvp 打架 ');
+INSERT INTO `school` VALUES (3, '北辰', '坦');
 
 -- ----------------------------
 -- Table structure for skill
