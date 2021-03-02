@@ -84,3 +84,9 @@
 #G=4C+[C/4]+5Y+[Y/4]+[3*(M+1)/5]+D-3
 #Z=4C+G+10+i
 
+import hashlib
+a=hashlib.sha1('123'.encode("utf-8")).hexdigest()
+print(a)
+
+I_pass_sha1 = hashlib.sha1('123'.encode("utf-8")).hexdigest()
+print(I_pass_sha1)
