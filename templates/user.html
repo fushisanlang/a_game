@@ -21,16 +21,15 @@ table {margin: auto;}
    <div align="center">
      <table >
   <tbody>
-  <tr><td>{{name}}</td></tr>
-  <tr><td>{{level}}</td></tr>
-  <tr><td>{{experience}}</td></tr>
-  <tr><td>{{school}}</td></tr>
-  <tr><td>{{skill}}</td></tr>
-  <tr><td>{{hp}}</td></tr>
-  <tr><td>{{mp}}</td></tr>
+
+    {% for role_dict_k,role_dict_v in role_dict.items() %}
+    <tr><td>{{ role_dict_k }} : {{ role_dict_v }} </td></tr> 
+              
+              {% endfor %}
+
    </tbody>
   </table>
-                     <button ><a href="/tangshi" style="color:#283c63;">唐诗</a> </button>
+                   <!--  <button ><a href="/tangshi" style="color:#283c63;">唐诗</a> </button> -->
 
  </body>
 </html>

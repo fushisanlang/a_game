@@ -5,6 +5,7 @@
   <title>注册成功</title>
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+  <script src="{{ url_for('static',filename='js/echarts.js') }}"></script>
 
  </head>
 
@@ -13,27 +14,78 @@
   <br />
   <br />
   <br />
-  <h1 align="center" style="color:#283c63;">登陆</h1>
+  <h1 align="center" style="color:#283c63;">注册成功</h1>
   <br />
-  <p align="center">注册成功</p>
   <br />
   <div id="main" align="center">
-    <form action="{{ url_for('login') }}" method="POST">
     <div align="center">
      <table id="rounded-corner" summary="2007 Major IT Companies' Profit">
       <tbody>
+     <tr><td style="width: 200;color: aquamarine;" align="center" ><b >{{ rolename }} </b></td></tr>
 
-       <tr> {{rolename}}
-       </tr>
+     <tr><td style="width: 200;color: aquamarine;" align="center" ><b >{{ roleschool }} </b></td></tr>
+     <tr><td><br></td></tr>
+
+     <tr><td> <div  align="center">
+      <div id="sum" style="width: 350;height:350;"></div>
+      <script type="text/javascript">
+          // 基于准备好的dom，初始化echarts实例
+          var myChart = echarts.init(document.getElementById('sum'),  'light', {renderer: 'svg'});
+  
+          // 指定图表的配置项和数据
+          var option = {
+               title: {
+      text: '角色属性值'
+  },
+  tooltip: {},
+  
+  radar: {
+      // shape: 'circle',
+      name: {
+          textStyle: {
+              color: '#fff',
+              backgroundColor: '#999',
+              borderRadius: 3,
+              padding: [3, 5]
+          }
+      },
+      indicator: [
+          { name: '金', max: {{ max }}} ,
+          { name: '木', max: {{ max }}} ,
+          { name: '水', max: {{ max }}} ,
+          { name: '火', max: {{ max }}} ,
+          { name: '土', max: {{ max }}} ,
+      ]
+  },
+  series: [{
+      name: '五行属性',
+      type: 'radar',
+      // areaStyle: {normal: {}},
+      data: [
+          {
+              value: [{% for wuxing_k,wuxing_v in wuxing_dict.items() %}
+              {{wuxing_v}},{% endfor %}
+            ],
+              
+          }
+      ]
+  }]
+};
+  
+          // 使用刚指定的配置项和数据显示图表。
+          myChart.setOption(option);
+      </script></div></td></tr>
+
+
       </tbody>
      </table>
     </div>
     <div align="center">
-     <input type="submit" ;="" align="center" value="登陆" />
+     
     </div>
 
-   </form>
-      <button ><a href="/register" style="color:#283c63;">注册</a> </button>
+  
+      <button ><a href="/user" style="color:#283c63;">开始游戏</a> </button>
 
  </body>
 </html>

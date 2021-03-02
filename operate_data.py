@@ -42,7 +42,7 @@ def insert_operaction(tablename,keys,valuses):
     sql_parm3 = " (" + keys +")"
     sql_parm4 = " VALUES (" + valuses + ");"
     sql = sql_parm1 + sql_parm2 + sql_parm3 + sql_parm4
-    #print(sql)
+    print(sql)
     cursor.execute(sql)
     conn.commit()
     cursor.close()
@@ -58,7 +58,7 @@ def update_operaction(tablename,update_str,key_str="1"):
     sql_parm3 = " SET " + update_str +" WHERE "
     sql_parm4 = key_str + ";"
     sql = sql_parm1 + sql_parm2 + sql_parm3 + sql_parm4
-    #print(sql)
+    print(sql)
     cursor.execute(sql)
     conn.commit()
     cursor.close()
