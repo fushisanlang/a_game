@@ -11,7 +11,7 @@
  Target Server Version : 50565
  File Encoding         : 65001
 
- Date: 01/03/2021 17:20:19
+ Date: 02/03/2021 16:42:08
 */
 
 SET NAMES utf8mb4;
@@ -61,18 +61,19 @@ INSERT INTO `attribute` VALUES (8, '水', '移速');
 -- ----------------------------
 DROP TABLE IF EXISTS `bag`;
 CREATE TABLE `bag`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `id` int(11) NOT NULL COMMENT 'id',
   `money` bigint(20) UNSIGNED ZEROFILL NOT NULL COMMENT '钱',
   `bag1` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '第一格',
   `bag2` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '第二格',
   `bag3` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '第三格',
   `bag4` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '第四格',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of bag
 -- ----------------------------
+INSERT INTO `bag` VALUES (10, 00000000000000000000, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for buff
@@ -142,8 +143,8 @@ CREATE TABLE `role`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '角色名',
-  `level` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '角色等级',
-  `experience` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '角色经验',
+  `level` int(11) NOT NULL COMMENT '角色等级',
+  `experience` int(11) NOT NULL COMMENT '角色经验',
   `school_id` int(11) NOT NULL COMMENT '门派id',
   `bag_id` int(11) NOT NULL COMMENT '背包id',
   `skill_id` int(11) NOT NULL COMMENT '功法id',
@@ -156,13 +157,13 @@ CREATE TABLE `role`  (
   `shui` int(11) NOT NULL COMMENT '水-移速',
   `huo` int(11) NOT NULL COMMENT '火-暴击率',
   `tu` int(11) NOT NULL COMMENT '土-防御',
-  `arms_id` int(11) NOT NULL COMMENT '武器id',
   PRIMARY KEY (`id`, `name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of role
 -- ----------------------------
+INSERT INTO `role` VALUES (10, 12, '发士大夫', 0, 0, 1, 10, 1, 3700, 3700, 0, 1900, 2, 5, 3, 3, 2);
 
 -- ----------------------------
 -- Table structure for school
@@ -172,15 +173,16 @@ CREATE TABLE `school`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派名',
   `info` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '门派简介',
+  `wuxing` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '五行属性',
   PRIMARY KEY (`id`, `name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of school
 -- ----------------------------
-INSERT INTO `school` VALUES (1, '心水', '避世 种田 溜溜溜');
-INSERT INTO `school` VALUES (2, '争锋', 'pvp 打架 ');
-INSERT INTO `school` VALUES (3, '北辰', '坦');
+INSERT INTO `school` VALUES (1, '心水', '避世 种田 溜溜溜', '[0,2,3,0,0]');
+INSERT INTO `school` VALUES (2, '争锋', 'pvp 打架 ', '[2,0,0,2,1]');
+INSERT INTO `school` VALUES (3, '北辰', '坦', '[0,2,-1,0,4]');
 
 -- ----------------------------
 -- Table structure for skill
