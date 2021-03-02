@@ -168,7 +168,6 @@ def attributeinfo():
 
 #
 @app.route('/login', methods=['GET', 'POST'])
-@login_required
 def login():
     if request.method == 'POST':
         G_username = request.form.get('username')
