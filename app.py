@@ -5,7 +5,6 @@ from flask_login import LoginManager, login_user, logout_user, current_user, log
 from operate_user import User, query_user, register_user
 from operate_data import select_operaction, insert_operaction,update_operaction
 import random
-#from operate_str import reStr, fanToJian, deCodeList
 import hashlib
 import time
 from operate_role import query_role_exist
@@ -42,9 +41,7 @@ def index():
 def user():
     username = current_user.get_id()
     role_id = select_operaction(
-        "r.id", "role r,user u", "u.user=\""+username+"\" and r.user_id=u.id")
-    print("role_id = ")
-    print(role_id)
+        "r.id", "role r,user u", "u.user=\""+username+"\" and r.user_id=u.id"
     if role_id == []:
         return redirect(url_for('schoolinfo'))
     role_dict={}
@@ -125,7 +122,7 @@ def schoolinfo():
     schools_dict = {}
     for byte_str in schools:
         schools_dict[byte_str[0].decode('UTF-8')] = byte_str[1].decode('UTF-8')
-    print(schools_dict)
+
     return render_template('schoolinfo.html', schools_dict=schools_dict)
 
 
@@ -137,7 +134,7 @@ def attributeinfo():
     for byte_str in attributes:
         attributes_dict[byte_str[0].decode(
             'UTF-8')] = byte_str[1].decode('UTF-8')
-    print(attributes_dict)
+
     return render_template('attributeinfo.html', attributes_dict=attributes_dict)
 
 # @app.route('/<path:post_type>/<int:post_id>')
@@ -172,6 +169,7 @@ def login():
     if request.method == 'POST':
         G_username = request.form.get('username')
         G_userpass = request.form.get('userpass')
+
         S_user_str = query_user(G_username)
         if S_user_str is None:
             return render_template('login_error.html')
@@ -221,7 +219,7 @@ def register_success():
     if G_userpass_2 != G_userpass:
         R_message = "两次密码不匹配，请重新注册"
         return render_template('register_error.html', R_message=R_message)
-    print(G_username, G_userpass)
+
     register_user(G_username, G_userpass)
     return render_template('register_success.html', username=G_username, password=G_userpass)
 
